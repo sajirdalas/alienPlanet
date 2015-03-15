@@ -2,10 +2,7 @@
 
 var defaultNotFoundMessage = "This link has not been posted on reddit";
 
-window.onload = function(){
-	//console.log("Done loading: "+document.URL);
-	self.port.emit("contentScriptReady",{});
-}
+//window.onload = function(){}
 
 self.port.on("sendPosts",function(payload){
 	//console.log("panel received message, checking");
@@ -86,3 +83,4 @@ function requestRedditMode(clickEvent){
 }
 
 
+self.port.emit("contentScriptReady",{});

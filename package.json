@@ -1,0 +1,10 @@
+{
+  "name": "alienplanet",
+  "title": "alienPlanet",
+  "id": "jid1-aa1CmVJu5MBFdA",
+  "description": "check reddit comments on the website you are currently on!",
+  "icon": "data/icon.png",
+  "icon64": "data/icon64.png",
+  "author": "rasaladrigas@gmail.com",
+  "version": "0.1"
+}

@@ -53,6 +53,7 @@ self.port.on("setNotFoundMessage",function(payload){
 });
 
 function addListElement(title, url, sub){
+	console.log("add list element");
 	var referenceLi = document.getElementsByClassName("reference")[0];
 
 	var newLi = referenceLi.cloneNode(true);
@@ -74,7 +75,7 @@ function addListElement(title, url, sub){
 }
 
 function requestRedditMode(clickEvent){
-
+	console.log("requesting reddit mode");
 	//we tell the main script to resize the panel for mobile reddit
 
 	//var url = clickEvent.currentTarget.href;

@@ -17,10 +17,13 @@ self.port.on("sendPosts",function(payload){
 		//iterate trough the reddit posts and add them to the list
 		for (var i = 0; i < payload.posts.length; i++) {
 			var currentPost = payload.posts[i].data;
-			var postTitle = currentPost.title;
-			var postUrl = "http://www.reddit.com" + currentPost.permalink;
-			var postSub = "/r/"+currentPost.subreddit;
-			addListElement(postTitle,postUrl,postSub);
+			var numOfComment = currentPost.num_comments;
+			//if(numOfComment > 0){
+				var postTitle = currentPost.title;
+				var postUrl = "http://www.reddit.com" + currentPost.permalink;
+				var postSub = "/r/"+currentPost.subreddit;
+				addListElement(postTitle,postUrl,postSub,numOfComment);
+			//}
 		}
 	}else{
 		//do nothing for now =)
@@ -52,14 +55,15 @@ self.port.on("setNotFoundMessage",function(payload){
 	messageArea.textContent = payload;
 });
 
-function addListElement(title, url, sub){
+function addListElement(title, url, sub, commentNum){
 	console.log("add list element");
 	var referenceLi = document.getElementsByClassName("reference")[0];
 
 	var newLi = referenceLi.cloneNode(true);
 	newLi.className = "listElement";
-	var firstLink = newLi.firstChild;
-	var lastLink = newLi.lastChild;
+	var firstLink = newLi.childNodes[0];
+	var lastLink = newLi.childNodes[2];
+	var commentCount = newLi.childNodes[4];
 	//firstLink.href = url+".compact";
 	firstLink.id = url+".compact";
 	lastLink.textContent = sub
@@ -67,6 +71,14 @@ function addListElement(title, url, sub){
 	//lastLink.href = "http://www.reddit.com"+sub+"/.compact";
 	lastLink.id = "http://www.reddit.com"+sub+"/.compact";
 	lastLink.textContent = sub
+
+	commentCount.textContent = commentNum;
+
+	//The shit I do for the sake of detail
+	if(commentNum == 1){
+		//This is just to remove an s if there is one comment
+		newLi.childNodes[5].textContent = " comment";
+	}
 
 	firstLink.onclick = requestRedditMode;
 	lastLink.onclick = requestRedditMode;

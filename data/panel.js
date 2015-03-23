@@ -1,9 +1,12 @@
 //This is the script running inside of the panel.
 
+console.log("panel script starting");
+
 var defaultNotFoundMessage = "This link has not been posted on reddit";
 
 window.onload = function(){
 	if(document.URL.startsWith("http://www.reddit.com") || document.URL.startsWith("https://www.reddit.com")){
+		console.log("Panel Detects reddit. Adding buttons");
 		var topBar = document.getElementById("topbar");
 		var backButton = document.createElement("div");
 		backButton.id = "customBackButton";
@@ -14,7 +17,7 @@ window.onload = function(){
 }
 
 self.port.on("sendPosts",function(payload){
-	//console.log("panel received message, checking");
+	console.log("panel received message, checking");
 	//we get the results of the reddit check and we check AGAIN if it has been detected.
 	if(payload.detected){
 		//we need to change the html and hide the "not found message"
@@ -40,6 +43,7 @@ self.port.on("sendPosts",function(payload){
 });
 
 self.port.on("clearList",function(payload){
+	console.log("panel clearing list");
 	//We need to remove all visible elements in the list
 	var listElements = document.getElementsByClassName("listElement");
 	var listParent = document.getElementById("theList");
@@ -108,5 +112,5 @@ function goback(){
 	self.port.emit("goBack",{}});
 }
 
-
+console.log("panel Script Ready");
 self.port.emit("contentScriptReady",{});

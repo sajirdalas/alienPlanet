@@ -2,7 +2,16 @@
 
 var defaultNotFoundMessage = "This link has not been posted on reddit";
 
-//window.onload = function(){}
+window.onload = function(){
+	if(document.URL.startsWith("http://www.reddit.com") || document.URL.startsWith("https://www.reddit.com")){
+		var topBar = document.getElementById("topbar");
+		var backButton = document.createElement("div");
+		backButton.id = "customBackButton";
+		backButton.textContent = "Back to List"
+		backButton.onclick = goback;
+		topBar.appendChild(backButton);
+	}
+}
 
 self.port.on("sendPosts",function(payload){
 	//console.log("panel received message, checking");
@@ -70,7 +79,7 @@ function addListElement(title, url, sub, commentNum){
 	firstLink.textContent = title
 	//lastLink.href = "http://www.reddit.com"+sub+"/.compact";
 	lastLink.id = "http://www.reddit.com"+sub+"/.compact";
-	lastLink.textContent = sub
+	lastLink.textContent = sub;
 
 	commentCount.textContent = commentNum;
 
@@ -93,6 +102,10 @@ function requestRedditMode(clickEvent){
 	//var url = clickEvent.currentTarget.href;
 	var url = clickEvent.currentTarget.id;
 	self.port.emit("redditMode",url);
+}
+
+function goback(){
+	self.port.emit("goBack",{}});
 }
 
 

@@ -9,10 +9,17 @@ window.onload = function(){
 		console.log("Panel Detects reddit. Adding buttons");
 		var topBar = document.getElementById("topbar");
 		var backButton = document.createElement("div");
+		var redditButton = document.createElement("div");
 		backButton.id = "customBackButton";
-		backButton.textContent = "Back to List"
+		redditButton.id = "customRedditButton";
+		backButton.className = "customButton";
+		redditButton.className = "customButton";
+		backButton.textContent = "Back to List";
+		redditButton.textContent = "Open in Reddit";
 		backButton.onclick = goback;
+		redditButton.onclick = openNewRedditTab;
 		topBar.appendChild(backButton);
+		topBar.appendChild(redditButton);
 	}
 }
 
@@ -110,6 +117,10 @@ function requestRedditMode(clickEvent){
 
 function goback(){
 	self.port.emit("goBack",{});
+}
+
+function openNewRedditTab(){
+	self.port.emit("newTab",document.URL.replace("/.compact",''));
 }
 
 console.log("panel Script Ready");

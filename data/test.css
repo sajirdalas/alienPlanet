@@ -35,6 +35,16 @@
     right: 10px;
     bottom: 1px;
     z-index: 3;
+}
+
+#customRedditButton {
+  position: absolute;
+  left: 10px;
+  bottom: 1px;
+  z-index: 1;
+}
+
+.customButton{
     width: 120px;
     height: 35px;
     border-radius: 5px;

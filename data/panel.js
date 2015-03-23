@@ -109,7 +109,7 @@ function requestRedditMode(clickEvent){
 }
 
 function goback(){
-	self.port.emit("goBack",{}});
+	self.port.emit("goBack",{});
 }
 
 console.log("panel Script Ready");

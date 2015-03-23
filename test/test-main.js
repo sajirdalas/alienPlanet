@@ -1,5 +1,5 @@
 var main = require("./main");
-var reddit = require("./reddit.js");
+var reddit = require("./reddit");
 
 //First we test if the plugin correctly detects that a website has never been posted.
 //We use the venezuela governemnt website for this because no one is ever going to post that

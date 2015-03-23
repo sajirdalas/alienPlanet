@@ -62,11 +62,11 @@ function addListElement(title, url, sub){
 	var lastLink = newLi.lastChild;
 	//firstLink.href = url+".compact";
 	firstLink.id = url+".compact";
-	lastLink.innerHTML = sub
-	firstLink.innerHTML = title
+	lastLink.textContent = sub
+	firstLink.textContent = title
 	//lastLink.href = "http://www.reddit.com"+sub+"/.compact";
 	lastLink.id = "http://www.reddit.com"+sub+"/.compact";
-	lastLink.innerHTML = sub
+	lastLink.textContent = sub
 
 	firstLink.onclick = requestRedditMode;
 	lastLink.onclick = requestRedditMode;

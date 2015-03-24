@@ -1,6 +1,6 @@
 This Firefox add-on is meant to be a helper for those of use who use Reddit is our main hub for discussion on the internet.
 
-The Add-on adds a small alien icon to the add-on bar. The icon is grey as long as the current tab is on a link that has NOT been posted on reddit (or the tab is on reddit), but when the tab navigates to a website that has been posted on reddit the icon will turn blue. If a blue icon is clicked a list of posts and subs where the link has been posted, and clicking on any element of the list will show the reddit comments for that post using the reddit mobile site.
+The Add-on adds a small alien icon to the add-on bar. The icon is grey as long as the current tab is on a link that has NOT been posted on reddit (or the tab is on reddit), but when the tab navigates to a website that has been posted on reddit the icon will turn blue. If a blue icon is clicked a list of posts and subs where the link has been posted, and clicking on any element of the list will show the reddit comments for that post using a modified reddit mobile site.
 
 On the technical side this add-on was developed with the Mozilla Firefox add-on sdk purely using high level APIs. It is currently on an usable but early stage and has a lot of bugs.
 

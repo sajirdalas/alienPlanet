@@ -20,6 +20,12 @@ window.onload = function(){
 		redditButton.onclick = openNewRedditTab;
 		topBar.appendChild(backButton);
 		topBar.appendChild(redditButton);
+	}else{
+		console.log("Custom html detected, adding onclick functions");
+		var subButtons = document.getElementsByClassName("submitButtons");
+		for (var i = 0; i < subButtons.length; i++) {
+			subButtons[i].onclick=openSubmit;
+		};
 	}
 }
 
@@ -67,12 +73,17 @@ self.port.on("clearList",function(payload){
 
 	document.getElementById("notFoundMessage").textContent = defaultNotFoundMessage;
 
+	var button = document.getElementById("submitButton1");
+	button.className = "";
+
 	self.port.emit("clearReady",{});
 })
 
 self.port.on("setNotFoundMessage",function(payload){
 	var messageArea = document.getElementById("notFoundMessage");
 	messageArea.textContent = payload;
+	var button = document.getElementById("submitButton1");
+	button.className = "hidden";
 });
 
 function addListElement(title, url, sub, commentNum){
@@ -120,7 +131,11 @@ function goback(){
 }
 
 function openNewRedditTab(){
-	self.port.emit("newTab",document.URL.replace("/.compact",''));
+	self.port.emit("newTab",{submit: false, url: document.URL.replace("/.compact",'')});
+}
+
+function openSubmit(){
+	self.port.emit("newTab",{submit: true, url: ""});
 }
 
 console.log("panel Script Ready");

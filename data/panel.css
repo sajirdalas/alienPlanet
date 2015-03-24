@@ -27,7 +27,7 @@ a {
 #notDetectedWrapper > h4{
 	width: 100%;
 	text-align: center;
-	margin-top: 80px;
+	margin-top: 60px;
 }
 
 #detectedWrapper > h5{
@@ -54,3 +54,7 @@ a {
 	display: inline-block;
 }
 
+#submitButton1{
+	margin: 0px auto;
+	display: block;
+}

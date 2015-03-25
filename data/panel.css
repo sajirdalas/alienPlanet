@@ -58,3 +58,10 @@ a {
 	margin: 0px auto;
 	display: block;
 }
+
+#submitButton2{
+	position: absolute;
+	top: 9px;
+	right: 9px;
+	border-radius: 5px;
+}

@@ -97,10 +97,12 @@ function addListElement(title, url, sub, commentNum){
 	var commentCount = newLi.childNodes[4];
 	//firstLink.href = url+".compact";
 	firstLink.id = url+".compact";
+	firstLink.href = url;
 	lastLink.textContent = sub
 	firstLink.textContent = title
 	//lastLink.href = "http://www.reddit.com"+sub+"/.compact";
 	lastLink.id = "http://www.reddit.com"+sub+"/.compact";
+	lastLink.href = "http://www.reddit.com"+sub;
 	lastLink.textContent = sub;
 
 	commentCount.textContent = commentNum;

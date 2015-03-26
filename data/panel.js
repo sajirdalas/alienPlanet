@@ -6,6 +6,7 @@ var defaultNotFoundMessage = "This link has not been posted on reddit";
 
 window.onload = function(){
 	if(document.URL.startsWith("http://www.reddit.com") || document.URL.startsWith("https://www.reddit.com")){
+		//We need to add some custom buttons to reddit on the panel. If the reddit URL is detected panel.js is up for the job
 		console.log("Panel Detects reddit. Adding buttons");
 		var topBar = document.getElementById("topbar");
 		var backButton = document.createElement("div");
@@ -21,6 +22,7 @@ window.onload = function(){
 		topBar.appendChild(backButton);
 		topBar.appendChild(redditButton);
 	}else{
+		//otherwise I cannot add onclick on the html that links to functions in panel.js, so I do it here
 		console.log("Custom html detected, adding onclick functions");
 		var subButtons = document.getElementsByClassName("submitButtons");
 		for (var i = 0; i < subButtons.length; i++) {
@@ -58,10 +60,24 @@ self.port.on("sendPosts",function(payload){
 self.port.on("clearList",function(payload){
 	console.log("panel clearing list");
 	//We need to remove all visible elements in the list
-	var listElements = document.getElementsByClassName("listElement");
-	var listParent = document.getElementById("theList");
+	//var listElements = document.getElementsByClassName("listElement");
+	//Now here is crazy thing, getElementsByClassName returns an active list. Meaning that is we remove a child with this class THE ARRAY LOSES AND ELEMENT
+	//Ergo, we can not simply iterate through it and delete stuff because length CHANGES AND BREAKES THE LOOP
+	//WHERE THE FUCK IS THIS DOCUMENTED
 
+	//This is me working around this issue
+	var activeListEelements = document.getElementsByClassName("listElement");
+	var listElements = [];
+	for (var i = 0; i < activeListEelements.length; i++) {
+		listElements.push(activeListEelements[i]);
+	};
+
+	var listParent = document.getElementById("theList");
+	console.log()
 	for (var i = 0; i < listElements.length; i++) {
+		//HOLY SHIT. WHAT A BUG
+		console.log(listElements.length);
+		//console.log(listElements[i]);
 		listParent.removeChild(listElements[i]);
 	};
 	//and then reset the panel to its original state
@@ -74,7 +90,7 @@ self.port.on("clearList",function(payload){
 	document.getElementById("notFoundMessage").textContent = defaultNotFoundMessage;
 
 	var button = document.getElementById("submitButton1");
-	button.className = "";
+	button.className = "submitButtons";
 
 	self.port.emit("clearReady",{});
 })

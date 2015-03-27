@@ -21,6 +21,16 @@ window.onload = function(){
 		redditButton.onclick = openNewRedditTab;
 		topBar.appendChild(backButton);
 		topBar.appendChild(redditButton);
+
+		//Also, prevent all links for working, opening them in new tabs
+		var allLinks = document.getElementsByTagName("a");
+		for (var i = 0; i < allLinks.length; i++) {
+			allLinks[i].onclick = function(clickEvent){
+				clickEvent.preventDefault();
+				var clickedUrl = clickEvent.currentTarget.href;
+				self.port.emit("newTab",{submit: false, url: clickedUrl});
+			}
+		};
 	}else{
 		//otherwise I cannot add onclick on the html that links to functions in panel.js, so I do it here
 		console.log("Custom html detected, adding onclick functions");
@@ -73,11 +83,7 @@ self.port.on("clearList",function(payload){
 	};
 
 	var listParent = document.getElementById("theList");
-	console.log()
 	for (var i = 0; i < listElements.length; i++) {
-		//HOLY SHIT. WHAT A BUG
-		console.log(listElements.length);
-		//console.log(listElements[i]);
 		listParent.removeChild(listElements[i]);
 	};
 	//and then reset the panel to its original state
@@ -137,6 +143,7 @@ function addListElement(title, url, sub, commentNum){
 
 function requestRedditMode(clickEvent){
 	console.log("requesting reddit mode");
+	clickEvent.preventDefault();
 	//we tell the main script to resize the panel for mobile reddit
 
 	//var url = clickEvent.currentTarget.href;

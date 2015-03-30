@@ -35,6 +35,7 @@ window.onload = function(){
 		//otherwise I cannot add onclick on the html that links to functions in panel.js, so I do it here
 		console.log("Custom html detected, adding onclick functions");
 		var subButtons = document.getElementsByClassName("submitButtons");
+		//Why is this a loop? I probably planned to add several submit buttons
 		for (var i = 0; i < subButtons.length; i++) {
 			subButtons[i].onclick=openSubmit;
 		};
@@ -47,10 +48,14 @@ self.port.on("sendPosts",function(payload){
 	if(payload.detected){
 		//we need to change the html and hide the "not found message"
 		var notFoundPanel = document.getElementById("notDetectedWrapper");
-		notFoundPanel.className = "wrapper hidden";
+		notFoundPanel.classList.add("hidden");
+		//notFoundPanel.className = "wrapper hidden";
 		//and show the new pannel
 		var foundPanel = document.getElementById("detectedWrapper");
-		foundPanel.className = "wrapper";
+		foundPanel.classList.remove("hidden");
+		//foundPanel.className = "wrapper";
+		var loadingPanel = document.getElementById("loadingWrapper");
+		loadingPanel.classList.add("hidden");
 		//iterate trough the reddit posts and add them to the list
 		for (var i = 0; i < payload.posts.length; i++) {
 			var currentPost = payload.posts[i].data;
@@ -88,15 +93,19 @@ self.port.on("clearList",function(payload){
 	};
 	//and then reset the panel to its original state
 	var notFoundPanel = document.getElementById("notDetectedWrapper");
-	notFoundPanel.className = "wrapper";
+	notFoundPanel.classList.remove("hidden");
+	//notFoundPanel.className = "wrapper";
 	//and hide the new pannel
 	var foundPanel = document.getElementById("detectedWrapper");
-	foundPanel.className = "wrapper hidden";
+	foundPanel.classList.add("hidden");
+	//foundPanel.className = "wrapper hidden";
+	var loadingPanel = document.getElementById("loadingWrapper");
+	loadingPanel.classList.add("hidden");
 
 	document.getElementById("notFoundMessage").textContent = defaultNotFoundMessage;
 
 	var button = document.getElementById("submitButton1");
-	button.className = "submitButtons";
+	button.classList.remove("hidden");
 
 	self.port.emit("clearReady",{});
 })
@@ -105,7 +114,27 @@ self.port.on("setNotFoundMessage",function(payload){
 	var messageArea = document.getElementById("notFoundMessage");
 	messageArea.textContent = payload;
 	var button = document.getElementById("submitButton1");
-	button.className = "hidden";
+	button.classList.add("hidden");
+});
+
+//Show or hide the loading screen
+
+self.port.on("loadingScreen",function(state){
+	//get all the panels
+	console.log("working with loading screen");
+	var notFoundPanel = document.getElementById("notDetectedWrapper");
+	var foundPanel = document.getElementById("detectedWrapper");
+	var loadingPanel = document.getElementById("loadingWrapper");
+
+	if(state){
+		//It is loading. Hide everything but the loading wrapper
+		notFoundPanel.classList.add("hidden");
+		foundPanel.classList.add("hidden");
+		loadingPanel.classList.remove("hidden");
+	}else{
+		//done loading, hide the loading screen
+		loadingPanel.classList.add("hidden");
+	}
 });
 
 function addListElement(title, url, sub, commentNum){
@@ -144,6 +173,14 @@ function addListElement(title, url, sub, commentNum){
 function requestRedditMode(clickEvent){
 	console.log("requesting reddit mode");
 	clickEvent.preventDefault();
+
+	//show loading screen
+	var notFoundPanel = document.getElementById("notDetectedWrapper");
+	var foundPanel = document.getElementById("detectedWrapper");
+	var loadingPanel = document.getElementById("loadingWrapper");
+	notFoundPanel.classList.add("hidden");
+	foundPanel.classList.add("hidden");
+	loadingPanel.classList.remove("hidden");
 	//we tell the main script to resize the panel for mobile reddit
 
 	//var url = clickEvent.currentTarget.href;

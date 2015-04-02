@@ -115,6 +115,7 @@ self.port.on("setNotFoundMessage",function(payload){
 	messageArea.textContent = payload;
 	var button = document.getElementById("submitButton1");
 	button.classList.add("hidden");
+	console.log(button.className);
 });
 
 //Show or hide the loading screen

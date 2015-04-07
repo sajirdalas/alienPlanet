@@ -166,7 +166,10 @@ function addListElement(title, url, sub, commentNum){
 	}
 
 	firstLink.onclick = requestRedditMode;
-	lastLink.onclick = requestRedditMode;
+	lastLink.onclick = function(clickEvent){
+		clickEvent.preventDefault();
+		self.port.emit("newTab",{submit: false, url: clickEvent.currentTarget.href});
+	}
 
 	document.getElementsByTagName("ul")[0].appendChild(newLi);
 }

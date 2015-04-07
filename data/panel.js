@@ -138,6 +138,41 @@ self.port.on("loadingScreen",function(state){
 	}
 });
 
+
+/*
+	Takes the reddit comments for a particular post and
+	populates the panel with them. EXPERIMENTAL
+*/
+self.port.on("receiveComments", function(comments){
+	console.log("received comments, populating panel");
+	document.getElementById("notDetectedWrapper").classList.add("hidden");
+	document.getElementById("detectedWrapper").classList.add("hidden");
+	document.getElementById("commentsWrapper").classList.remove("hidden");
+	// we receive two listings, the second of which is the actual
+	// comments.
+	var comments = comments[1]["data"]["children"];
+	for(var i=0; i < comments.length; i++) {
+		addComment(comments[i]["data"]["body"]);
+	}
+
+	// connect back button
+	document.getElementById("backButton").onclick = function(){
+		document.getElementById("notDetectedWrapper").classList.add("hidden");
+		document.getElementById("detectedWrapper").classList.remove("hidden");
+		document.getElementById("commentsWrapper").classList.add("hidden");
+	}
+});
+/*
+	Takes a comment and adds it to the list EXPERIMENTAL
+*/
+function addComment(content){
+	var commentLi = document.getElementsByClassName("comment")[0];
+	var newLi = commentLi.cloneNode(true);
+	newLi.className="comment";
+	newLi.innerHTML = unescape(content);
+	document.getElementById("commentList").appendChild(newLi);
+}
+
 function addListElement(title, url, sub, commentNum){
 	console.log("add list element");
 	var referenceLi = document.getElementsByClassName("reference")[0];
@@ -165,7 +200,7 @@ function addListElement(title, url, sub, commentNum){
 		newLi.childNodes[5].textContent = " comment";
 	}
 
-	firstLink.onclick = requestRedditMode;
+	firstLink.onclick = requestCommentMode;
 	lastLink.onclick = function(clickEvent){
 		clickEvent.preventDefault();
 		self.port.emit("newTab",{submit: false, url: clickEvent.currentTarget.href});
@@ -173,6 +208,16 @@ function addListElement(title, url, sub, commentNum){
 
 	document.getElementsByTagName("ul")[0].appendChild(newLi);
 }
+
+//This is experimental
+
+function requestCommentMode(clickEvent) {
+	clickEvent.preventDefault();
+	var url = clickEvent.currentTarget.id;
+
+	self.port.emit("commentMode", url);
+};
+
 
 function requestRedditMode(clickEvent){
 	console.log("requesting reddit mode");
